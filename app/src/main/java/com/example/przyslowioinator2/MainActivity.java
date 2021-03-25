@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,6 +76,17 @@ public class MainActivity extends AppCompatActivity {
 
                     if(isSuccess){
                         Toast.makeText(getApplicationContext(),"Przysłowia pobrane",Toast.LENGTH_LONG).show();
+                        JSONArray resp = null;
+                        try {
+                            resp = response.getJSONArray("przyslowia");
+                            for(int i=0; i<resp.length();i++){
+                                JSONObject rzecz=resp.getJSONObject(i);
+                                slowa.add(rzecz.getString("tresc"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }else{
                         Toast.makeText(getApplicationContext(),stringError,Toast.LENGTH_LONG).show();
                     }
@@ -91,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return slowa;
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
