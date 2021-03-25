@@ -13,14 +13,16 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import java.util.concurrent.ThreadLocalRandom;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
 
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> przyslowia=new ArrayList<String>();
@@ -35,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
-                // goToMainActivity();
                 losujRequest();
             }
         });
@@ -55,13 +56,16 @@ public class MainActivity extends AppCompatActivity {
             JSONObject jo = new JSONObject();
             jo.put("haslo","maslo");
 
-            String url= "http://10.0.2.2:5000/requestBase";
-            JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, url, jo, new Response.Listener<JSONObject>() {
+            String url= "http://10.0.2.2:5000/przyslowia";
+
+
+            JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Boolean isSuccess = false;
+                    boolean isSuccess = false;
                     String stringError = "";
 
+                    Toast.makeText(getApplicationContext(),"Przysłowia pobrane",Toast.LENGTH_LONG).show();
                     try {
                         isSuccess = response.getBoolean("success");
                         stringError = response.getString("errorString");
@@ -69,10 +73,8 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    //Jesli uda sie pobrac z bazy
                     if(isSuccess){
-                        Toast.makeText(getApplicationContext(),"Konto utworzone",Toast.LENGTH_LONG).show();
-                        //goToLoginActivity();
+                        Toast.makeText(getApplicationContext(),"Przysłowia pobrane",Toast.LENGTH_LONG).show();
                     }else{
                         Toast.makeText(getApplicationContext(),stringError,Toast.LENGTH_LONG).show();
                     }
@@ -80,11 +82,11 @@ public class MainActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),error.getMessage(),Toast.LENGTH_LONG).show();
                 }
             });
 
-            //RequestSingleton.getInstance(this).addToRequestQueue(sr);
+            RequestSingleton.getInstance(this).addToRequestQueue(sr);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     private void losujRequest(){//ArrayList<String> slowa, String sciezka
 
             //jesli wszystkie przyslowia zuzyte
-            if(this.przyslowia.size()<1) {
+            if(przyslowia.size()<1) {
                 przyslowia = pobierzPrzyslowia();
             }
             if(przyslowia.size()<1) {
