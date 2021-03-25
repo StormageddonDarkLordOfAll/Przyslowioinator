@@ -3,6 +3,7 @@ package com.example.przyslowioinator2;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
         Button losujButton;
         losujButton = (Button) findViewById(R.id.losujButton);
+        Button doListyButton;
+        doListyButton = (Button) findViewById(R.id.doListyButton);
+
         losujButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -41,7 +45,14 @@ public class MainActivity extends AppCompatActivity {
                 losujRequest();
             }
         });
-
+        doListyButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View view) {
+                Intent dolistyIntent = new Intent(getApplicationContext(), ListaPrzyslowActivity.class);
+                startActivity(dolistyIntent);
+            }
+        });
         przyslowia  = pobierzPrzyslowia();
 
 
