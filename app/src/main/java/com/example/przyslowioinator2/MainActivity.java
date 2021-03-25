@@ -49,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
-                Intent dolistyIntent = new Intent(getApplicationContext(), ListaPrzyslowActivity.class);
-                startActivity(dolistyIntent);
+                goToListaPrzyslowActivity();
             }
         });
         przyslowia  = pobierzPrzyslowia();
@@ -74,25 +73,27 @@ public class MainActivity extends AppCompatActivity {
             JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    boolean isSuccess = false;
+                    boolean isSuccess = true;
                     String stringError = "";
 
-                    Toast.makeText(getApplicationContext(),"Przysłowia pobrane",Toast.LENGTH_LONG).show();
-                    try {
+                    //Toast.makeText(getApplicationContext(),"Przysłowia pobrane",Toast.LENGTH_LONG).show();
+                    /*try {
                         isSuccess = response.getBoolean("success");
                         stringError = response.getString("errorString");
                     } catch (JSONException e) {
                         e.printStackTrace();
-                    }
+                    }*/
 
                     if(isSuccess){
-                        Toast.makeText(getApplicationContext(),"Przysłowia pobrane",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(),"Przysłowia pobrane",Toast.LENGTH_LONG).show();
                         JSONArray resp = null;
                         try {
                             resp = response.getJSONArray("przyslowia");
                             for(int i=0; i<resp.length();i++){
                                 JSONObject rzecz=resp.getJSONObject(i);
                                 slowa.add(rzecz.getString("tresc"));
+
+                                Toast.makeText(getApplicationContext(),rzecz.getString("tresc"),Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -126,12 +127,14 @@ public class MainActivity extends AppCompatActivity {
             }
             if(przyslowia.size()<1) {
                 //przyslowia.add("ERROR BRAK PRZYSLOW");
-                Toast.makeText(getApplicationContext(),"Error brak przyslow",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Error brak przyslow - MAIN",Toast.LENGTH_LONG).show();
                 return;
             }
             int losowy = ThreadLocalRandom.current().nextInt(0, przyslowia.size()); //+1
             String linia = przyslowia.get(losowy);
         przyslowia.remove(losowy);
+
+        Toast.makeText(getApplicationContext(),linia,Toast.LENGTH_LONG).show();
         ClipboardManager clipboard = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -139,5 +142,10 @@ public class MainActivity extends AppCompatActivity {
         ClipData clip = ClipData.newPlainText("Przyslowie", linia);
         clipboard.setPrimaryClip(clip);
 
+    }
+
+    private void goToListaPrzyslowActivity(){
+        Intent dolistyIntent = new Intent(this, ListaPrzyslowActivity.class);
+        startActivity(dolistyIntent);
     }
 }

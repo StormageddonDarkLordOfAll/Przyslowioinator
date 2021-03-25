@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class KomunikatorSerwerowy {
-    public static ArrayList<String> pobierzPrzyslowia(Context context) {
+    public static ArrayList<String>  pobierzPrzyslowia(Context context) {
         //wyslanie do babzy danych zapytanych
         ArrayList<String> slowa = new ArrayList<String>();
         try {
@@ -30,38 +30,31 @@ public class KomunikatorSerwerowy {
             JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    boolean isSuccess = false;
+                    boolean isSuccess = true;
                     String stringError = "";
 
-                    //Toast.makeText(getApplicationContext(),"Przysłowia pobrane",Toast.LENGTH_LONG).show();
-                    try {
-                        isSuccess = response.getBoolean("success");
-                        stringError = response.getString("errorString");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
                     if(isSuccess){
-                        //Toast.makeText(getApplicationContext(),"Przysłowia pobrane",Toast.LENGTH_LONG).show();
                         JSONArray resp = null;
                         try {
                             resp = response.getJSONArray("przyslowia");
                             for(int i=0; i<resp.length();i++){
                                 JSONObject rzecz=resp.getJSONObject(i);
                                 slowa.add(rzecz.getString("tresc"));
+
+                                Toast.makeText(context,rzecz.getString("tresc"),Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
                     }else{
-                        //Toast.makeText(getApplicationContext(),stringError,Toast.LENGTH_LONG).show();
+                        Toast.makeText(context,stringError,Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    //.makeText(getApplicationContext(),error.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,error.getMessage(),Toast.LENGTH_LONG).show();
                 }
             });
 
