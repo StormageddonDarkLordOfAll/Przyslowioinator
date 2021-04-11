@@ -1,12 +1,19 @@
 package com.example.przyslowioinator2;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.przyslowioinator2.adapters.ItemDecoration;
+import com.example.przyslowioinator2.adapters.ListaPrzyslowAdapter;
+import com.example.przyslowioinator2.models.Przyslowie;
+import com.example.przyslowioinator2.utils.RequestSingleton;
+import com.example.przyslowioinator2.utils.ServerHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,10 +25,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ListaPrzyslowActivity extends AppCompatActivity {
-    ArrayList<String> przyslowa = new ArrayList<String>(); //!!!!! PrzysLOWA a nie przysLOWIA
+public class ListaPrzyslowActivity extends AppCompatActivity  implements ListaPrzyslowAdapter.OnItemListener {
+    ArrayList<Przyslowie> przyslowa; //!!!!! PrzysLOWA a nie przysLOWIA
 
-    ListaPrzyslowAdapter adapter;
+    ListaPrzyslowAdapter mListaPrzyslowAdapter;
+    RecyclerView mRecyclerView;
 
 
     @Override
@@ -29,60 +37,37 @@ public class ListaPrzyslowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.przyslow_listaactivity);
-        RecyclerView widokRecyklingu = findViewById(R.id.przyslowiaListView);
 
-        adapter = new ListaPrzyslowAdapter(przyslowa, this);
+        mRecyclerView = findViewById(R.id.przyslowiaListView);
+        new GetPrzyslowiaFromServer().execute();
 
-        widokRecyklingu.setAdapter(adapter);
-        widokRecyklingu.setLayoutManager(new LinearLayoutManager(this));
-
-        pobierzPrzyslowia();
+        RecyclerView.ItemDecoration itemDecoration = new ItemDecoration(getResources().getDrawable(R.drawable.divider));
+        mRecyclerView.addItemDecoration(itemDecoration);
     }
 
-    private void pobierzPrzyslowia() {
-        try {
+    @Override
+    public void onItemClick(int position) {
+        boolean expanded = przyslowa.get(position).isExpanded();
+        przyslowa.get(position).setExpanded(!expanded);
+        mListaPrzyslowAdapter.notifyItemChanged(position);
+    }
 
-            JSONObject jo = new JSONObject();
-            jo.put("haslo","maslo");
+    private class GetPrzyslowiaFromServer extends AsyncTask<Void, Void, Void> {
 
-            String url= "http://10.0.2.2:5000/przyslowia";
+        @Override
+        protected Void doInBackground(Void... voids) {
+            przyslowa = ServerHandler.getPrzyslowia(getApplicationContext());
+            while(przyslowa.size() < 1); //TODO: do timeout after few seconds
+            return null;
+        }
 
-
-            JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    boolean isSuccess = true;
-                    String stringError = "";
-
-                    if(isSuccess){
-                        JSONArray resp = null;
-                        try {
-                            resp = response.getJSONArray("przyslowia");
-                            for(int i=0; i<resp.length();i++){
-                                JSONObject rzecz=resp.getJSONObject(i);
-                                przyslowa.add(rzecz.getString("tresc"));
-
-                            }
-                            adapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }else{
-                        Toast.makeText(getApplicationContext(),stringError,Toast.LENGTH_LONG).show();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(),error.getMessage(),Toast.LENGTH_LONG).show();
-                }
-            });
-
-            RequestSingleton.getInstance(this).addToRequestQueue(sr);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+        @Override
+        protected void onPostExecute(Void aVoid){
+            super.onPostExecute(aVoid);
+            Log.v("ListaPrzyslowActivity", String.valueOf(przyslowa.size()));
+            mListaPrzyslowAdapter = new ListaPrzyslowAdapter(przyslowa, ListaPrzyslowActivity.this);
+            mRecyclerView.setAdapter(mListaPrzyslowAdapter);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         }
     }
 }

@@ -8,9 +8,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/przyslowiaListView"
-        android:layout_width="343dp"
-        android:layout_height="620dp"
-        android:layout_marginTop="95dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

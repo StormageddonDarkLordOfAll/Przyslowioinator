@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">przyslowioinator2</string>
+    <string name="app_name">Przysłowioinator</string>
+    <string name="losuj_do_clipboarda">Losuj do Clipboarda</string>
+    <string name="przejdz_do_listy">Przejdz do Listy</string>
+    <string name="dodaj_do_schowka">Dodaj do schowka</string>
+    <string name="wiktionary">Wiktionary</string>
 </resources>

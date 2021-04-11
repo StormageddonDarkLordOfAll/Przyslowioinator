@@ -14,6 +14,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.przyslowioinator2.models.Przyslowie;
+import com.example.przyslowioinator2.utils.PrzyslowiaUtils;
+import com.example.przyslowioinator2.utils.RequestSingleton;
+import com.example.przyslowioinator2.utils.ServerHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +31,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<String> przyslowia=new ArrayList<String>();
+    ArrayList<Przyslowie> przyslowia = new ArrayList<>();
+
+    private static ClipboardManager clipboardManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
-                losujRequest();
+                addToClipboard(PrzyslowiaUtils.randomPrzyslowie(getApplicationContext(), przyslowia));
             }
         });
         doListyButton.setOnClickListener(new View.OnClickListener() {
@@ -52,100 +58,27 @@ public class MainActivity extends AppCompatActivity {
                 goToListaPrzyslowActivity();
             }
         });
-        przyslowia  = pobierzPrzyslowia();
 
+        przyslowia = ServerHandler.getPrzyslowia(this);
 
-
-
+        setClipboardManager();
     }
-    private ArrayList<String>  pobierzPrzyslowia() {
-        //wyslanie do babzy danych zapytanych
-        ArrayList<String> slowa = new ArrayList<String>();
-        try {
-
-            //wrzucenie podanych danych do jsona
-            JSONObject jo = new JSONObject();
-            jo.put("haslo","maslo");
-
-            String url= "http://10.0.2.2:5000/przyslowia";
 
 
-            JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    boolean isSuccess = true;
-                    String stringError = "";
-
-                    //Toast.makeText(getApplicationContext(),"Przysłowia pobrane",Toast.LENGTH_LONG).show();
-                    /*try {
-                        isSuccess = response.getBoolean("success");
-                        stringError = response.getString("errorString");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }*/
-
-                    if(isSuccess){
-                        //Toast.makeText(getApplicationContext(),"Przysłowia pobrane",Toast.LENGTH_LONG).show();
-                        JSONArray resp = null;
-                        try {
-                            resp = response.getJSONArray("przyslowia");
-                            for(int i=0; i<resp.length();i++){
-                                JSONObject rzecz=resp.getJSONObject(i);
-                                slowa.add(rzecz.getString("tresc"));
-
-                                Toast.makeText(getApplicationContext(),rzecz.getString("tresc"),Toast.LENGTH_LONG).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }else{
-                        Toast.makeText(getApplicationContext(),stringError,Toast.LENGTH_LONG).show();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(),error.getMessage(),Toast.LENGTH_LONG).show();
-                }
-            });
-
-            RequestSingleton.getInstance(this).addToRequestQueue(sr);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return slowa;
+    public static void addToClipboard(String text){
+        ClipData clip = ClipData.newPlainText("Przyslowie", text);
+        clipboardManager.setPrimaryClip(clip);
     }
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void losujRequest(){//ArrayList<String> slowa, String sciezka
 
-            //jesli wszystkie przyslowia zuzyte
-            if(przyslowia.size()<1) {
-                przyslowia = pobierzPrzyslowia();
-            }
-            if(przyslowia.size()<1) {
-                //przyslowia.add("ERROR BRAK PRZYSLOW");
-                Toast.makeText(getApplicationContext(),"Error brak przyslow - MAIN",Toast.LENGTH_LONG).show();
-                return;
-            }
-            int losowy = ThreadLocalRandom.current().nextInt(0, przyslowia.size()); //+1
-            String linia = przyslowia.get(losowy);
-        przyslowia.remove(losowy);
-
-        Toast.makeText(getApplicationContext(),linia,Toast.LENGTH_LONG).show();
-        ClipboardManager clipboard = null;
+    private void setClipboardManager(){
+        clipboardManager = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         }
-        ClipData clip = ClipData.newPlainText("Przyslowie", linia);
-        clipboard.setPrimaryClip(clip);
-
     }
 
     private void goToListaPrzyslowActivity(){
-        Intent dolistyIntent = new Intent(this, ListaPrzyslowActivity.class);
-        startActivity(dolistyIntent);
+        Intent toListIntent = new Intent(this, ListaPrzyslowActivity.class);
+        startActivity(toListIntent);
     }
 }

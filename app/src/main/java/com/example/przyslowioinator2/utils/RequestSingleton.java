@@ -1,4 +1,4 @@
-package com.example.przyslowioinator2;
+package com.example.przyslowioinator2.utils;
 
 import android.content.Context;
 
