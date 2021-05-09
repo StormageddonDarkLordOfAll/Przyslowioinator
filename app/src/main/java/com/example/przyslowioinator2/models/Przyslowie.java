@@ -6,9 +6,9 @@ public class Przyslowie {
 
     private boolean expanded;
 
-    public Przyslowie(String tresc, String wiktionaryLink) {
+    public Przyslowie(String tresc) {
         this.tresc = Character.toUpperCase(tresc.charAt(0)) + tresc.substring(1) + ".";
-        this.wiktionaryLink = wiktionaryLink;
+        this.wiktionaryLink = "https://pl.wiktionary.org/wiki/" + tresc.replace(' ', '_') + "#pl";
         this.expanded = false;
     }
 

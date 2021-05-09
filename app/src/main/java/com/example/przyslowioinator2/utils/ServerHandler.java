@@ -42,7 +42,7 @@ public class ServerHandler {
                             resp = response.getJSONArray("przyslowia");
                             for(int i = 0; i < resp.length(); i++){
                                 JSONObject respJSONObject=resp.getJSONObject(i);
-                                przyslowia.add(new Przyslowie(respJSONObject.getString("tresc"), ""));
+                                przyslowia.add(new Przyslowie(respJSONObject.getString("tresc")));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

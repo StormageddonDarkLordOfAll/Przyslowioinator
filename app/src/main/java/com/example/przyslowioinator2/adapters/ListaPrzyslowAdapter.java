@@ -1,5 +1,7 @@
 package com.example.przyslowioinator2.adapters;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,7 +9,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.przyslowioinator2.MainActivity;
+import com.example.przyslowioinator2.activities.MainActivity;
 import com.example.przyslowioinator2.R;
 import com.example.przyslowioinator2.models.Przyslowie;
 
@@ -15,6 +17,8 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 
 public class ListaPrzyslowAdapter extends RecyclerView.Adapter<ListaPrzyslowAdapter.ViewHolder>  {
@@ -51,17 +55,23 @@ public class ListaPrzyslowAdapter extends RecyclerView.Adapter<ListaPrzyslowAdap
         TextView typeText;
         LinearLayout linearLayout;
         Button addToClipboard;
+        Button wiktionaryButton;
         OnItemListener onItemListener;
+        String uri;
 
 
         public ViewHolder(View view, OnItemListener onItemListener) {
             super(view);
 
-            typeText = (TextView) view.findViewById(R.id.typeText);
-            linearLayout = (LinearLayout) view.findViewById(R.id.expanded_row);
-            addToClipboard = (Button) view.findViewById(R.id.copy_to_clipboard);
+            typeText = view.findViewById(R.id.typeText);
+            linearLayout = view.findViewById(R.id.expanded_row);
+            addToClipboard = view.findViewById(R.id.copy_to_clipboard);
             addToClipboard.setOnClickListener(v -> {
                 MainActivity.addToClipboard((String) typeText.getText());
+            });
+            wiktionaryButton = view.findViewById(R.id.wiktionary);
+            wiktionaryButton.setOnClickListener(v -> {
+                startActivity(view.getContext(), new Intent(Intent.ACTION_VIEW, Uri.parse(uri)), null);
             });
             this.onItemListener = onItemListener;
 
@@ -81,6 +91,7 @@ public class ListaPrzyslowAdapter extends RecyclerView.Adapter<ListaPrzyslowAdap
             typeText.setText(przyslowie.getTresc());
             boolean expanded = przyslowie.isExpanded();
             linearLayout.setVisibility(expanded ? View.VISIBLE : View.GONE);
+            uri = przyslowie.getWiktionaryLink();
         }
     }
 

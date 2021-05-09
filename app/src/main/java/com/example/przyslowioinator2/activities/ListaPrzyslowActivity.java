@@ -1,23 +1,14 @@
-package com.example.przyslowioinator2;
+package com.example.przyslowioinator2.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.przyslowioinator2.R;
 import com.example.przyslowioinator2.adapters.ItemDecoration;
 import com.example.przyslowioinator2.adapters.ListaPrzyslowAdapter;
 import com.example.przyslowioinator2.models.Przyslowie;
-import com.example.przyslowioinator2.utils.RequestSingleton;
 import com.example.przyslowioinator2.utils.ServerHandler;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.example.przyslowioinator2;
+package com.example.przyslowioinator2.activities;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -8,23 +8,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.przyslowioinator2.R;
 import com.example.przyslowioinator2.models.Przyslowie;
 import com.example.przyslowioinator2.utils.PrzyslowiaUtils;
-import com.example.przyslowioinator2.utils.RequestSingleton;
 import com.example.przyslowioinator2.utils.ServerHandler;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button losujButton;
-        losujButton = (Button) findViewById(R.id.losujButton);
+        losujButton = findViewById(R.id.losujButton);
         Button doListyButton;
-        doListyButton = (Button) findViewById(R.id.doListyButton);
+        doListyButton = findViewById(R.id.doListyButton);
 
         losujButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
