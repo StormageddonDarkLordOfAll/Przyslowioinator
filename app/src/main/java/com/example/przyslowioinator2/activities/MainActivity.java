@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         losujButton = findViewById(R.id.losujButton);
         Button doListyButton;
         doListyButton = findViewById(R.id.doListyButton);
+        Button addPrzyslowieButton;
+        addPrzyslowieButton = findViewById(R.id.go_to_add_przyslowie);
 
         losujButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -48,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
                 goToListaPrzyslowActivity();
             }
         });
+
+        addPrzyslowieButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToNewPrzyslowieActivity();
+            }
+        });
+
+
 
         przyslowia = ServerHandler.getPrzyslowia(this);
 
@@ -70,5 +81,10 @@ public class MainActivity extends AppCompatActivity {
     private void goToListaPrzyslowActivity(){
         Intent toListIntent = new Intent(this, ListaPrzyslowActivity.class);
         startActivity(toListIntent);
+    }
+
+    private void goToNewPrzyslowieActivity(){
+        Intent toAddIntent = new Intent(this, NewPrzyslowieActivity.class);
+        startActivity(toAddIntent);
     }
 }

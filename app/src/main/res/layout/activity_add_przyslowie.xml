@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         android:layout_weight="2">
         <Button
-            android:id="@+id/go_back_subscribe"
+            android:id="@+id/go_back_addPrzyslowie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -28,7 +28,7 @@
         android:layout_weight="2"/>
 
     <EditText
-        android:id="@+id/editTextLocalization2"
+        android:id="@+id/editTextAddPrzyslowie"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -44,7 +44,7 @@
         android:layout_weight="1"/>
 
     <Button
-        android:id="@+id/subscribeButton"
+        android:id="@+id/addPrzyslowieButton"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"

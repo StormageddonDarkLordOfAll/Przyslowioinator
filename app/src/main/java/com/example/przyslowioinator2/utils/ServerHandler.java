@@ -67,4 +67,39 @@ public class ServerHandler {
         Log.v("ServerHandler", String.valueOf(przyslowia.size()));
         return przyslowia;
     }
+
+    public static void addPrzyslowie(Context context, String przyslowie){
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("przyslowie", przyslowie);
+
+            String url = "http://10.0.2.2:5000/addPrzyslowie";
+
+            JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    String stringError = "";
+
+                    try {
+
+                        if(!response.getBoolean("success")) {
+                            stringError = response.getString("errorString");
+                            Log.e("ServerHandler", stringError);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("ServerHandler", error.getMessage());
+                }
+            });
+
+            RequestSingleton.getInstance(context).addToRequestQueue(objectRequest);
+        } catch(JSONException e){
+            e.printStackTrace();
+        }
+    }
 }
