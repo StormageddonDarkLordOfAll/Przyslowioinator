@@ -2,6 +2,7 @@ package com.example.przyslowioinator2.utils;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.przyslowioinator2.models.Przyslowie;
@@ -11,9 +12,9 @@ import java.util.Random;
 
 public class PrzyslowiaUtils {
 
-    public static String randomPrzyslowie(Context context, List<Przyslowie> przyslowia){
+    public static String randomPrzyslowie(Context context, List<Przyslowie> przyslowia, View v){
         if(przyslowia.size()<1) {
-            przyslowia = ServerHandler.getPrzyslowia(context);
+            przyslowia = ServerHandler.getPrzyslowia(context,v);
         }
         if(przyslowia.size()<1) {
             Toast.makeText(context,"Error brak przyslow - MAIN",Toast.LENGTH_LONG).show();

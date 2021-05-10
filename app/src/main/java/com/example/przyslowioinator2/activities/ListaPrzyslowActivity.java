@@ -1,5 +1,6 @@
 package com.example.przyslowioinator2.activities;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,11 @@ import com.example.przyslowioinator2.adapters.ListaPrzyslowAdapter;
 import com.example.przyslowioinator2.models.Przyslowie;
 import com.example.przyslowioinator2.utils.ServerHandler;
 
+import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,7 +53,7 @@ public class ListaPrzyslowActivity extends AppCompatActivity  implements ListaPr
 
         @Override
         protected Void doInBackground(Void... voids) {
-            przyslowa = ServerHandler.getPrzyslowia(getApplicationContext());
+            przyslowa = ServerHandler.getPrzyslowia(getApplicationContext(),findViewById(android.R.id.content).getRootView());
             while(przyslowa.size() < 1); //TODO: do timeout after few seconds
             return null;
         }
@@ -59,6 +65,27 @@ public class ListaPrzyslowActivity extends AppCompatActivity  implements ListaPr
             mListaPrzyslowAdapter = new ListaPrzyslowAdapter(przyslowa, ListaPrzyslowActivity.this);
             mRecyclerView.setAdapter(mListaPrzyslowAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+            /*
+            String FILENAME = "hello_file";
+            String string = "hello world!";
+
+            FileOutputStream fos = null;
+            try {
+                fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                JSONObject prz;
+                for(int i =0; i<przyslowa.size(); i++){
+
+                    fos.write(prz.getBytes());
+                }
+                fos.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            */
+
         }
     }
 }

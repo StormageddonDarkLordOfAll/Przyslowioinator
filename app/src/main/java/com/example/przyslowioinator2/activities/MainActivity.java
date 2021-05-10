@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
-                addToClipboard(PrzyslowiaUtils.randomPrzyslowie(getApplicationContext(), przyslowia));
+                addToClipboard(PrzyslowiaUtils.randomPrzyslowie(getApplicationContext(), przyslowia,findViewById(android.R.id.content).getRootView()));
             }
         });
         doListyButton.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        przyslowia = ServerHandler.getPrzyslowia(this);
+        przyslowia = ServerHandler.getPrzyslowia(this,findViewById(android.R.id.content).getRootView());
 
         setClipboardManager();
     }
