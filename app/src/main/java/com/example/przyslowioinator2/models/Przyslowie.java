@@ -1,23 +1,35 @@
 package com.example.przyslowioinator2.models;
 
 public class Przyslowie {
-    private final String tresc;
+    private final int id;
+    private final String text;
+    private final String formattedText;
     private final String wiktionaryLink;
 
     private boolean expanded;
 
-    public Przyslowie(String tresc) {
-        this.tresc = Character.toUpperCase(tresc.charAt(0)) + tresc.substring(1) + ".";
-        this.wiktionaryLink = "https://pl.wiktionary.org/wiki/" + tresc.replace(' ', '_') + "#pl";
+    public Przyslowie(int id, String text) {
+        this.id = id;
+        this.text = text;
+        this.formattedText = Character.toUpperCase(text.charAt(0)) + text.substring(1) + ".";
+        this.wiktionaryLink = "https://pl.wiktionary.org/wiki/" + text.replace(' ', '_') + "#pl";
         this.expanded = false;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public String getText(){
+        return text;
     }
 
     public String getWiktionaryLink() {
         return wiktionaryLink;
     }
 
-    public String getTresc() {
-        return tresc;
+    public String getFormattedText() {
+        return formattedText;
     }
 
     public boolean isExpanded(){

@@ -22,7 +22,7 @@ public class PrzyslowiaUtils {
         }
         Random r = new Random();
         int losowy = r.nextInt(przyslowia.size());
-        String linia = przyslowia.get(losowy).getTresc();
+        String linia = przyslowia.get(losowy).getFormattedText();
         przyslowia.remove(losowy);
         Toast.makeText(context, linia, Toast.LENGTH_LONG).show();
         Log.v("PrzyslowiaUtils", String.valueOf(przyslowia.size()));

@@ -8,9 +8,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.przyslowioinator2.R;
 import com.example.przyslowioinator2.models.Przyslowie;
+import com.example.przyslowioinator2.utils.FavouritesUtils;
 import com.example.przyslowioinator2.utils.PrzyslowiaUtils;
 import com.example.przyslowioinator2.utils.ServerHandler;
 
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Przyslowie> przyslowia = new ArrayList<>();
 
     private static ClipboardManager clipboardManager;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,9 +63,17 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        przyslowia = ServerHandler.getPrzyslowia(this,findViewById(android.R.id.content).getRootView());
+        przyslowia = ServerHandler.getPrzyslowia(this, findViewById(android.R.id.content).getRootView());
 
         setClipboardManager();
+
+        //Przyslowie przyslowieTest = new Przyslowie(2137, "rapapappa");
+        //FavouritesUtils.addToFavourites(przyslowieTest, findViewById(android.R.id.content).getRootView());
+        //Przyslowie przyslowieTest2 = new Przyslowie(2138, "srututututu");
+        //FavouritesUtils.addToFavourites(przyslowieTest2, findViewById(android.R.id.content).getRootView());
+        FavouritesUtils.getFavourites(findViewById(android.R.id.content).getRootView()).forEach(v ->{
+            Toast.makeText(this, v.getText(), Toast.LENGTH_LONG).show();
+        });
     }
 
 

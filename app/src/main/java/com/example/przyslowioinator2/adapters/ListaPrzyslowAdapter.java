@@ -56,6 +56,7 @@ public class ListaPrzyslowAdapter extends RecyclerView.Adapter<ListaPrzyslowAdap
         LinearLayout linearLayout;
         Button addToClipboard;
         Button wiktionaryButton;
+        Button saveButton;
         OnItemListener onItemListener;
         String uri;
 
@@ -73,6 +74,10 @@ public class ListaPrzyslowAdapter extends RecyclerView.Adapter<ListaPrzyslowAdap
             wiktionaryButton.setOnClickListener(v -> {
                 startActivity(view.getContext(), new Intent(Intent.ACTION_VIEW, Uri.parse(uri)), null);
             });
+            saveButton = view.findViewById(R.id.save_button);
+            saveButton.setOnClickListener(view1 -> {
+
+            });
             this.onItemListener = onItemListener;
 
             view.setOnClickListener(this);
@@ -88,7 +93,7 @@ public class ListaPrzyslowAdapter extends RecyclerView.Adapter<ListaPrzyslowAdap
         }
 
         private void bind(Przyslowie przyslowie){
-            typeText.setText(przyslowie.getTresc());
+            typeText.setText(przyslowie.getFormattedText());
             boolean expanded = przyslowie.isExpanded();
             linearLayout.setVisibility(expanded ? View.VISIBLE : View.GONE);
             uri = przyslowie.getWiktionaryLink();

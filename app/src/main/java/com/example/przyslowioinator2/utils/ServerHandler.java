@@ -42,39 +42,29 @@ public class ServerHandler {
             JsonObjectRequest sr = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    boolean isSuccess = true;
-                    String stringError = "";
                     String FILENAME = "hello_file.txt";
-                    String string = "hello world!";
 
-                    if(isSuccess){
-                        JSONArray resp = null;
-                        try {
-                            resp = response.getJSONArray("przyslowia");
+                    JSONArray resp = null;
+                    try {
+                        resp = response.getJSONArray("przyslowia");
 
-                            FileOutputStream fos = v.getContext().openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                        FileOutputStream fos = v.getContext().openFileOutput(FILENAME, Context.MODE_PRIVATE);
 
-                            for(int i = 0; i < resp.length(); i++){
-                                JSONObject respJSONObject=resp.getJSONObject(i);
+                        //TODO czy nie trzeba tu wyczyścić pliku?
+                        for(int i = 0; i < resp.length(); i++){
+                            JSONObject respJSONObject=resp.getJSONObject(i);
 
-                                fos.write(respJSONObject.toString().getBytes()); //zapisanie JSONA w pliku
-                                fos.write("\n".getBytes());
+                            fos.write(respJSONObject.toString().getBytes()); //zapisanie JSONA w pliku
+                            fos.write("\n".getBytes());
 
-                                przyslowia.add(new Przyslowie(respJSONObject.getString("tresc")));
-                            }
-                            fos.close();
-                        } catch (JSONException | FileNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                            przyslowia.add(new Przyslowie(Integer.parseInt(respJSONObject.getString("id")),
+                                    respJSONObject.getString("tresc")));
                         }
-
-
-
-
-                    }else{
-                        Log.e("ServerHandler", stringError);
-                        //Toast.makeText(context,"c1",Toast.LENGTH_LONG).show();
+                        fos.close();
+                    } catch (JSONException | FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
             }, new Response.ErrorListener() {
@@ -96,10 +86,13 @@ public class ServerHandler {
         }
         return przyslowia;
     }
+
+
     public static ArrayList<Przyslowie> loadFromFilePrzyslowie(Context context, View v){
         String FILENAME = "hello_file.txt";
         ArrayList<Przyslowie> przyslowia2 = new ArrayList<>();
-        String strLine,prz;
+        String strLine;
+        String przyslowie;
         try {
 
             FileInputStream fis = v.getContext().openFileInput(FILENAME);
@@ -108,9 +101,9 @@ public class ServerHandler {
 
             JSONObject testSON= new JSONObject();
             while ((strLine = br.readLine()) != null) {
-                prz = strLine;
-                testSON = new JSONObject(prz);
-                przyslowia2.add(new Przyslowie(testSON.getString("tresc")));
+                przyslowie = strLine;
+                testSON = new JSONObject(przyslowie);
+                przyslowia2.add(new Przyslowie(Integer.parseInt(testSON.getString("id")), testSON.getString("tresc")));
             }
             fis.close();
         } catch (FileNotFoundException e) {
@@ -125,6 +118,7 @@ public class ServerHandler {
         }
         return przyslowia2;
     }
+
     public static void addPrzyslowie(Context context, String przyslowie){
         try {
             JSONObject jsonObject = new JSONObject();
@@ -142,6 +136,7 @@ public class ServerHandler {
                         if(!response.getBoolean("success")) {
                             stringError = response.getString("errorString");
                             Log.e("ServerHandler", stringError);
+                            Toast.makeText(context, "Nie udało się dodać przysłowia!", Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -151,6 +146,7 @@ public class ServerHandler {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.e("ServerHandler", error.getMessage());
+                    Toast.makeText(context, "Nie udało się dodać przysłowia!", Toast.LENGTH_LONG).show();
                 }
             });
 
