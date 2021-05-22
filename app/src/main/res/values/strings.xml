@@ -8,6 +8,6 @@
     <string name="type_przyslowie">Podaj przysłowie</string>
     <string name="add">dodaj</string>
     <string name="dodaj_przyslowie">Dodaj przysłowie</string>
-    <string name="save">Zapisz</string>
+    <string name="save">+</string>
     <string name="favourites">Ulubione</string>
 </resources>

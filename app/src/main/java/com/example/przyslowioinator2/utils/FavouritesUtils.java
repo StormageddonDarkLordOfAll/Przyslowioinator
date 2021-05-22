@@ -92,6 +92,10 @@ public class FavouritesUtils {
         }
     }
 
+    public static void removeFromFavourites(Przyslowie przyslowie, View view){
+//TODO removeFromFavourites
+    }
+
     public static ArrayList<Przyslowie> getFavourites(View view){
         ArrayList<Przyslowie> favouritePrzyslowia = new ArrayList<>();
         JSONArray przyslowiaJsonArray;

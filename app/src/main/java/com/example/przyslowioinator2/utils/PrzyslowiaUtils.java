@@ -1,6 +1,7 @@
 package com.example.przyslowioinator2.utils;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -8,7 +9,11 @@ import android.widget.Toast;
 import com.example.przyslowioinator2.models.Przyslowie;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Random;
+
+import androidx.annotation.RequiresApi;
 
 public class PrzyslowiaUtils {
 
@@ -27,5 +32,14 @@ public class PrzyslowiaUtils {
         Toast.makeText(context, linia, Toast.LENGTH_LONG).show();
         Log.v("PrzyslowiaUtils", String.valueOf(przyslowia.size()));
         return linia;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static boolean isPrzyslowieFavourite(View view, Przyslowie przyslowie) {
+        return FavouritesUtils.getFavourites(view).stream()
+                .mapToInt(Przyslowie::getId)
+                .filter(id -> przyslowie.getId() == id)
+                .findFirst()
+                .isPresent();
     }
 }

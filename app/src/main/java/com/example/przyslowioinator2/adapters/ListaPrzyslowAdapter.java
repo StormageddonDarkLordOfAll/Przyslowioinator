@@ -2,6 +2,7 @@ package com.example.przyslowioinator2.adapters;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,13 @@ import android.widget.TextView;
 import com.example.przyslowioinator2.activities.MainActivity;
 import com.example.przyslowioinator2.R;
 import com.example.przyslowioinator2.models.Przyslowie;
+import com.example.przyslowioinator2.utils.FavouritesUtils;
+import com.example.przyslowioinator2.utils.PrzyslowiaUtils;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static androidx.core.content.ContextCompat.startActivity;
@@ -30,6 +34,7 @@ public class ListaPrzyslowAdapter extends RecyclerView.Adapter<ListaPrzyslowAdap
         this.mOnItemListener = onItemListener;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -59,8 +64,10 @@ public class ListaPrzyslowAdapter extends RecyclerView.Adapter<ListaPrzyslowAdap
         Button saveButton;
         OnItemListener onItemListener;
         String uri;
+        Przyslowie przyslowie;
 
 
+        @RequiresApi(api = Build.VERSION_CODES.N)
         public ViewHolder(View view, OnItemListener onItemListener) {
             super(view);
 
@@ -76,7 +83,14 @@ public class ListaPrzyslowAdapter extends RecyclerView.Adapter<ListaPrzyslowAdap
             });
             saveButton = view.findViewById(R.id.save_button);
             saveButton.setOnClickListener(view1 -> {
-
+                if(PrzyslowiaUtils.isPrzyslowieFavourite(view, przyslowie)){
+                    FavouritesUtils.removeFromFavourites(przyslowie, view);
+                    saveButton.setText("+");
+                }
+                else {
+                    FavouritesUtils.addToFavourites(przyslowie, view);
+                    saveButton.setText("-");
+                }
             });
             this.onItemListener = onItemListener;
 
@@ -96,7 +110,9 @@ public class ListaPrzyslowAdapter extends RecyclerView.Adapter<ListaPrzyslowAdap
             typeText.setText(przyslowie.getFormattedText());
             boolean expanded = przyslowie.isExpanded();
             linearLayout.setVisibility(expanded ? View.VISIBLE : View.GONE);
+            //TODO set appropriate text for saveButton
             uri = przyslowie.getWiktionaryLink();
+            this.przyslowie = przyslowie;
         }
     }
 

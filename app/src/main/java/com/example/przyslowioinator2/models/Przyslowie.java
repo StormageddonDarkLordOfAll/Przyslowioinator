@@ -1,5 +1,8 @@
 package com.example.przyslowioinator2.models;
 
+import com.example.przyslowioinator2.utils.FavouritesUtils;
+import com.example.przyslowioinator2.utils.PrzyslowiaUtils;
+
 public class Przyslowie {
     private final int id;
     private final String text;
