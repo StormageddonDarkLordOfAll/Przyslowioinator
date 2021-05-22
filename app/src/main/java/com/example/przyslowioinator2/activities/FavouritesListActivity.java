@@ -9,6 +9,7 @@ import com.example.przyslowioinator2.R;
 import com.example.przyslowioinator2.adapters.ItemDecoration;
 import com.example.przyslowioinator2.adapters.ListaPrzyslowAdapter;
 import com.example.przyslowioinator2.models.Przyslowie;
+import com.example.przyslowioinator2.utils.FavouritesUtils;
 import com.example.przyslowioinator2.utils.ServerHandler;
 
 import org.json.JSONObject;
@@ -36,6 +37,11 @@ public class FavouritesListActivity extends AppCompatActivity implements ListaPr
         setContentView(R.layout.favourites_list_activity);
 
         mRecyclerView = findViewById(R.id.przyslowiaListView);
+        przyslowa = FavouritesUtils.getFavourites(findViewById(android.R.id.content).getRootView());
+
+        mListaPrzyslowAdapter = new ListaPrzyslowAdapter(przyslowa, FavouritesListActivity.this);
+        mRecyclerView.setAdapter(mListaPrzyslowAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         RecyclerView.ItemDecoration itemDecoration = new ItemDecoration(getResources().getDrawable(R.drawable.divider));
         mRecyclerView.addItemDecoration(itemDecoration);

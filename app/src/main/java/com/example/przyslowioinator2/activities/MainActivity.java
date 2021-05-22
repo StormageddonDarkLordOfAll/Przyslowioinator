@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         doListyButton = findViewById(R.id.doListyButton);
         Button addPrzyslowieButton;
         addPrzyslowieButton = findViewById(R.id.go_to_add_przyslowie);
+        Button goToFavouritesButton;
+        goToFavouritesButton = findViewById(R.id.go_to_favourites);
 
         losujButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -58,6 +60,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 goToNewPrzyslowieActivity();
+            }
+        });
+
+        goToFavouritesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToFavouritesListActivity();
             }
         });
 
@@ -97,5 +106,10 @@ public class MainActivity extends AppCompatActivity {
     private void goToNewPrzyslowieActivity(){
         Intent toAddIntent = new Intent(this, NewPrzyslowieActivity.class);
         startActivity(toAddIntent);
+    }
+
+    private void goToFavouritesListActivity() {
+        Intent toFavouritesIntent = new Intent(this, FavouritesListActivity.class);
+        startActivity(toFavouritesIntent);
     }
 }
