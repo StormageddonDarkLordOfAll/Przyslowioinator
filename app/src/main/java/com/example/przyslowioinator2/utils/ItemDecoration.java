@@ -1,4 +1,4 @@
-package com.example.przyslowioinator2.adapters;
+package com.example.przyslowioinator2.utils;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;

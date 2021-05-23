@@ -1,6 +1,5 @@
 package com.example.przyslowioinator2.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -10,18 +9,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.przyslowioinator2.R;
-import com.example.przyslowioinator2.adapters.ItemDecoration;
+import com.example.przyslowioinator2.utils.ItemDecoration;
 import com.example.przyslowioinator2.adapters.ListaPrzyslowAdapter;
 import com.example.przyslowioinator2.models.Przyslowie;
 import com.example.przyslowioinator2.utils.ServerHandler;
 
-import org.json.JSONObject;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
