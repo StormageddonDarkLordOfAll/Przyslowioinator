@@ -116,6 +116,9 @@ public class ServerHandler {
             //Toast.makeText(context,"c3",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
+        //TEST
+        Przyslowie ptest = new Przyslowie(przyslowia2.size(),"to przyslowie dodaje tylko czytajac z pliku");
+        przyslowia2.add(ptest);
         return przyslowia2;
     }
 
