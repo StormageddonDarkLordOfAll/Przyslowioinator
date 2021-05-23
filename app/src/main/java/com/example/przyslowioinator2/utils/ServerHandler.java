@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -31,6 +32,7 @@ public class ServerHandler {
     public synchronized static ArrayList<Przyslowie> getPrzyslowia(Context context, View v) {
 
         ArrayList<Przyslowie> przyslowia = new ArrayList<>();
+        boolean offlineFlag = false;
 
         try {
             JSONObject jsonObject = new JSONObject();
@@ -50,6 +52,7 @@ public class ServerHandler {
 
                         FileOutputStream fos = v.getContext().openFileOutput(FILENAME, Context.MODE_PRIVATE);
 
+
                         //TODO czy nie trzeba tu wyczyścić pliku?
                         for(int i = 0; i < resp.length(); i++){
                             JSONObject respJSONObject=resp.getJSONObject(i);
@@ -61,6 +64,7 @@ public class ServerHandler {
                                     respJSONObject.getString("tresc")));
                         }
                         fos.close();
+
                     } catch (JSONException | FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -71,7 +75,10 @@ public class ServerHandler {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.e("ServerHandler", error.getMessage());
-                    //Toast.makeText(context,"c2",Toast.LENGTH_LONG).show();
+                    File file = new File(context.getFilesDir(), "hello_file.txt");
+                    if(file.exists()) {
+                        przyslowia.addAll(loadFromFilePrzyslowie(context, v));
+                    }
                 }
             });
 
@@ -81,9 +88,6 @@ public class ServerHandler {
             e.printStackTrace();
         }
         Log.v("ServerHandler", String.valueOf(przyslowia.size()));
-        if(przyslowia.size()==0){
-            przyslowia.addAll(loadFromFilePrzyslowie(context,v));
-        }
         return przyslowia;
     }
 
@@ -108,17 +112,11 @@ public class ServerHandler {
             fis.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            //Toast.makeText(context,"c1",Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
-            //Toast.makeText(context,"c2",Toast.LENGTH_LONG).show();
         } catch (JSONException e) {
-            //Toast.makeText(context,"c3",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
-        //TEST
-        Przyslowie ptest = new Przyslowie(przyslowia2.size(),"to przyslowie dodaje tylko czytajac z pliku");
-        przyslowia2.add(ptest);
         return przyslowia2;
     }
 

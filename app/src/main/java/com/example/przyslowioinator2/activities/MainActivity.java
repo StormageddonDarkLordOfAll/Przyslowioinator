@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         //Przyslowie przyslowieTest2 = new Przyslowie(2138, "srututututu");
         //FavouritesUtils.addToFavourites(przyslowieTest2, findViewById(android.R.id.content).getRootView());
         FavouritesUtils.getFavourites(findViewById(android.R.id.content).getRootView()).forEach(v ->{
-            Toast.makeText(this, v.getText(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, v.getText(), Toast.LENGTH_LONG).show();
         });
     }
 
