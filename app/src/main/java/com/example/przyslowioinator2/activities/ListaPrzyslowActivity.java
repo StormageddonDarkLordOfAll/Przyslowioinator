@@ -62,7 +62,7 @@ public class ListaPrzyslowActivity extends AppCompatActivity  implements ListaPr
         protected void onPostExecute(Void aVoid){
             super.onPostExecute(aVoid);
             Log.v("ListaPrzyslowActivity", String.valueOf(przyslowa.size()));
-            mListaPrzyslowAdapter = new ListaPrzyslowAdapter(przyslowa, ListaPrzyslowActivity.this);
+            mListaPrzyslowAdapter = new ListaPrzyslowAdapter(przyslowa, ListaPrzyslowActivity.this, findViewById(android.R.id.content).getRootView());
             mRecyclerView.setAdapter(mListaPrzyslowAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 

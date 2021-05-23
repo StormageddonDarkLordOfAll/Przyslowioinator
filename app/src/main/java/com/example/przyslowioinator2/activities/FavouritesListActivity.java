@@ -39,7 +39,7 @@ public class FavouritesListActivity extends AppCompatActivity implements ListaPr
         mRecyclerView = findViewById(R.id.przyslowiaListView);
         przyslowa = FavouritesUtils.getFavourites(findViewById(android.R.id.content).getRootView());
 
-        mListaPrzyslowAdapter = new ListaPrzyslowAdapter(przyslowa, FavouritesListActivity.this);
+        mListaPrzyslowAdapter = new ListaPrzyslowAdapter(przyslowa, FavouritesListActivity.this, findViewById(android.R.id.content).getRootView());
         mRecyclerView.setAdapter(mListaPrzyslowAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 

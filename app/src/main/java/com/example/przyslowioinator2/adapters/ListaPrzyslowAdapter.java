@@ -28,10 +28,12 @@ import static androidx.core.content.ContextCompat.startActivity;
 public class ListaPrzyslowAdapter extends RecyclerView.Adapter<ListaPrzyslowAdapter.ViewHolder>  {
     private final ArrayList<Przyslowie> przyslowia;
     private final OnItemListener mOnItemListener;
+    private final View view;
 
-    public ListaPrzyslowAdapter(ArrayList<Przyslowie> przyslowia, OnItemListener onItemListener) {
+    public ListaPrzyslowAdapter(ArrayList<Przyslowie> przyslowia, OnItemListener onItemListener, View view) {
         this.przyslowia = przyslowia;
         this.mOnItemListener = onItemListener;
+        this.view = view;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -44,9 +46,10 @@ public class ListaPrzyslowAdapter extends RecyclerView.Adapter<ListaPrzyslowAdap
         return new ViewHolder(view, mOnItemListener);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        viewHolder.bind(przyslowia.get(position));
+        viewHolder.bind(przyslowia.get(position), view);
     }
 
     @Override
@@ -106,11 +109,18 @@ public class ListaPrzyslowAdapter extends RecyclerView.Adapter<ListaPrzyslowAdap
             onItemListener.onItemClick(getAdapterPosition());
         }
 
-        private void bind(Przyslowie przyslowie){
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        private void bind(Przyslowie przyslowie, View view){
             typeText.setText(przyslowie.getFormattedText());
             boolean expanded = przyslowie.isExpanded();
             linearLayout.setVisibility(expanded ? View.VISIBLE : View.GONE);
             //TODO set appropriate text for saveButton
+            if(PrzyslowiaUtils.isPrzyslowieFavourite(view, przyslowie)){
+                saveButton.setText("-");
+            }
+            else {
+                saveButton.setText("+");
+            }
             uri = przyslowie.getWiktionaryLink();
             this.przyslowie = przyslowie;
         }
