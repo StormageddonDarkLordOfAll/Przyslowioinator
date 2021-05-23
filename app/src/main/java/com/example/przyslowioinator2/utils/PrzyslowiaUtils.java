@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi;
 
 public class PrzyslowiaUtils {
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static String randomPrzyslowie(Context context, List<Przyslowie> przyslowia, View v){
         if(przyslowia.size()<1) {
             przyslowia = ServerHandler.getPrzyslowia(context,v);

@@ -1,6 +1,7 @@
 package com.example.przyslowioinator2.utils;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -26,13 +27,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import androidx.annotation.RequiresApi;
 
 public class ServerHandler {
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public synchronized static ArrayList<Przyslowie> getPrzyslowia(Context context, View v) {
 
         ArrayList<Przyslowie> przyslowia = new ArrayList<>();
-        boolean offlineFlag = false;
 
         try {
             JSONObject jsonObject = new JSONObject();

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Przysłowioinator</string>
     <string name="losuj_do_clipboarda">Losuj do Clipboarda</string>
-    <string name="przejdz_do_listy">Przejdz do Listy</string>
+    <string name="przejdz_do_listy">Przejdź do Listy</string>
     <string name="dodaj_do_schowka">Dodaj do schowka</string>
     <string name="wiktionary">Wiktionary</string>
     <string name="go_back">wróć</string>
@@ -10,4 +10,5 @@
     <string name="dodaj_przyslowie">Dodaj przysłowie</string>
     <string name="save">+</string>
     <string name="favourites">Ulubione</string>
+    <string name="przyslowiaList">Lista przysłów</string>
 </resources>

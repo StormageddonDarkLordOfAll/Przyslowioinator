@@ -40,8 +40,14 @@ public class NewPrzyslowieActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                ServerHandler.addPrzyslowie(getApplicationContext(), typePrzyslowieEditText.getText().toString());
-                goToMainActivity();
+                String przyslowie = typePrzyslowieEditText.getText().toString().trim();
+                if(przyslowie.length() > 0) {
+                    ServerHandler.addPrzyslowie(getApplicationContext(), przyslowie);
+                    goToMainActivity();
+                }
+                else {
+                    Toast.makeText(view.getContext(), "Podaj przysłowie!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

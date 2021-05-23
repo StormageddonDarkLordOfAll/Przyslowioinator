@@ -163,11 +163,7 @@ public class FavouritesUtils {
                 filteredJsonObjects.forEach(przyslowiaJsonArray::put);
             }
 
-            //przyslowieJson.put("id", przyslowie.getId());
-            //przyslowieJson.put("tresc", przyslowie.getText());
-
             assert przyslowiaJsonArray != null;
-            //przyslowiaJsonArray.put(przyslowieJson);
 
             mainJsonObject.put("przyslowia", przyslowiaJsonArray);
 

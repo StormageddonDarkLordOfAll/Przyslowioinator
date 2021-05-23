@@ -114,7 +114,6 @@ public class ListaPrzyslowAdapter extends RecyclerView.Adapter<ListaPrzyslowAdap
             typeText.setText(przyslowie.getFormattedText());
             boolean expanded = przyslowie.isExpanded();
             linearLayout.setVisibility(expanded ? View.VISIBLE : View.GONE);
-            //TODO set appropriate text for saveButton
             if(PrzyslowiaUtils.isPrzyslowieFavourite(view, przyslowie)){
                 saveButton.setText("-");
             }

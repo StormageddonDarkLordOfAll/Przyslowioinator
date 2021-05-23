@@ -1,9 +1,13 @@
 package com.example.przyslowioinator2.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.przyslowioinator2.R;
 import com.example.przyslowioinator2.adapters.ItemDecoration;
@@ -17,7 +21,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +33,7 @@ public class ListaPrzyslowActivity extends AppCompatActivity  implements ListaPr
 
     ListaPrzyslowAdapter mListaPrzyslowAdapter;
     RecyclerView mRecyclerView;
-
+    Button goBack;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,15 @@ public class ListaPrzyslowActivity extends AppCompatActivity  implements ListaPr
 
         mRecyclerView = findViewById(R.id.przyslowiaListView);
         new GetPrzyslowiaFromServer().execute();
+
+        goBack = findViewById(R.id.go_back_lista);
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View view) {
+                goToMainActivity();
+            }
+        });
 
         RecyclerView.ItemDecoration itemDecoration = new ItemDecoration(getResources().getDrawable(R.drawable.divider));
         mRecyclerView.addItemDecoration(itemDecoration);
@@ -49,8 +64,14 @@ public class ListaPrzyslowActivity extends AppCompatActivity  implements ListaPr
         mListaPrzyslowAdapter.notifyItemChanged(position);
     }
 
+    private void goToMainActivity(){
+        Intent goToMainActivityIntent = new Intent(this, MainActivity.class);
+        startActivity(goToMainActivityIntent);
+    }
+
     private class GetPrzyslowiaFromServer extends AsyncTask<Void, Void, Void> {
 
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         protected Void doInBackground(Void... voids) {
             przyslowa = ServerHandler.getPrzyslowia(getApplicationContext(),findViewById(android.R.id.content).getRootView());
@@ -58,34 +79,15 @@ public class ListaPrzyslowActivity extends AppCompatActivity  implements ListaPr
             return null;
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         protected void onPostExecute(Void aVoid){
             super.onPostExecute(aVoid);
             Log.v("ListaPrzyslowActivity", String.valueOf(przyslowa.size()));
+            przyslowa.sort(new Przyslowie.PrzyslowieComparator());
             mListaPrzyslowAdapter = new ListaPrzyslowAdapter(przyslowa, ListaPrzyslowActivity.this, findViewById(android.R.id.content).getRootView());
             mRecyclerView.setAdapter(mListaPrzyslowAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-            /*
-            String FILENAME = "hello_file";
-            String string = "hello world!";
-
-            FileOutputStream fos = null;
-            try {
-                fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
-                JSONObject prz;
-                for(int i =0; i<przyslowa.size(); i++){
-
-                    fos.write(prz.getBytes());
-                }
-                fos.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            */
-
         }
     }
 }

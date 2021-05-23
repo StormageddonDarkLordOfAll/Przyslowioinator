@@ -17,13 +17,14 @@ import com.example.przyslowioinator2.utils.PrzyslowiaUtils;
 import com.example.przyslowioinator2.utils.ServerHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<Przyslowie> przyslowia = new ArrayList<>();
+    List<Przyslowie> przyslowia = new ArrayList<>();
 
     private static ClipboardManager clipboardManager;
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -75,14 +76,6 @@ public class MainActivity extends AppCompatActivity {
         przyslowia = ServerHandler.getPrzyslowia(this, findViewById(android.R.id.content).getRootView());
 
         setClipboardManager();
-
-        //Przyslowie przyslowieTest = new Przyslowie(2137, "rapapappa");
-        //FavouritesUtils.addToFavourites(przyslowieTest, findViewById(android.R.id.content).getRootView());
-        //Przyslowie przyslowieTest2 = new Przyslowie(2138, "srututututu");
-        //FavouritesUtils.addToFavourites(przyslowieTest2, findViewById(android.R.id.content).getRootView());
-        FavouritesUtils.getFavourites(findViewById(android.R.id.content).getRootView()).forEach(v ->{
-            //Toast.makeText(this, v.getText(), Toast.LENGTH_LONG).show();
-        });
     }
 
 

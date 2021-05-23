@@ -3,6 +3,8 @@ package com.example.przyslowioinator2.models;
 import com.example.przyslowioinator2.utils.FavouritesUtils;
 import com.example.przyslowioinator2.utils.PrzyslowiaUtils;
 
+import java.util.Comparator;
+
 public class Przyslowie {
     private final int id;
     private final String text;
@@ -41,5 +43,13 @@ public class Przyslowie {
 
     public void setExpanded(boolean expanded){
         this.expanded = expanded;
+    }
+
+    public static class PrzyslowieComparator implements Comparator<Przyslowie>
+    {
+        @Override
+        public int compare(Przyslowie o1, Przyslowie o2) {
+            return o1.getFormattedText().compareToIgnoreCase(o2.getFormattedText());
+        }
     }
 }
